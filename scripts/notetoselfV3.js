@@ -1,3 +1,4 @@
+'use strict';
 class Sticky {
   #id;
   #note;
@@ -101,3 +102,4 @@ function init() {
 }
 
 window.onload = init;
+
