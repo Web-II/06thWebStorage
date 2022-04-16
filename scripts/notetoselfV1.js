@@ -1,3 +1,4 @@
+'use strict';
 class StickiesComponent {
   #storage;
   constructor(storage) {
@@ -17,7 +18,7 @@ class StickiesComponent {
     this.#storage.clear();
   }
   addSticky(note) {
-    const key = 'id-' + Math.random().toString(36).substring(2);
+    const key = 'sticky_' + Math.random().toString(36).substring(2);
     this.#storage.setItem(key, note);
   }
 }
@@ -34,7 +35,7 @@ function init() {
     clearButton.disabled = true;
     return;
   }
-  addButton.onclick = function () {
+  addButton.onclick = () => {
     stickiesComponent.addSticky(noteText.value);
     noteText.value = '';
     stickiesComponent.toHTML();
