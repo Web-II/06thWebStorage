@@ -1,3 +1,4 @@
+'use strict';
 function init() {
   // In JavaScript wordt een cookie als volgt gecreëerd
   document.cookie = 'username=John Doe';
