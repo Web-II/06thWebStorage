@@ -51,7 +51,7 @@ class StickiesComponent {
   }
 
   #addSticky(note, color) { }
-  deleteSticky(key) { }
+  #deleteSticky(key) { }
   #clearStickies() { }
   #getStickiesFromStorage() { }
   #setStickiesInStorage() { }
@@ -67,7 +67,7 @@ class StickiesComponent {
       li.appendChild(span);
       document.getElementById('stickies').appendChild(li);
       li.onclick = () => {
-        this.deleteSticky(li.id);
+        this.#deleteSticky(li.id);
       };
     });
   }
