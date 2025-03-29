@@ -39,6 +39,9 @@ class StickiesComponent {
   #stickies = [];
   constructor(storage) {
     this.#storage = storage;
+    this.#initializeEventHandlers();
+    this.#getStickiesFromStorage();
+    this.#toHTML();
   }
   get storage() {
     return this.#storage;
@@ -47,12 +50,12 @@ class StickiesComponent {
     return this.#stickies;
   }
 
-  addSticky(note, color) {}
-  deleteSticky(key) {}
-  clearStickies() {}
-  getStickiesFromStorage() {}
-  setStickiesInStorage() {}
-  toHTML() {
+  #addSticky(note, color) { }
+  deleteSticky(key) { }
+  #clearStickies() { }
+  #getStickiesFromStorage() { }
+  #setStickiesInStorage() { }
+  #toHTML() {
     document.getElementById('stickies').innerHTML = '';
     this.#stickies.map((sticky) => {
       let li = document.createElement('li');
@@ -68,37 +71,33 @@ class StickiesComponent {
       };
     });
   }
-  storageEventHandler(event) {
-    alert('Storage has been changed on another page');
-    this.getStickiesFromStorage();
-    this.toHTML();
+
+  #initializeEventHandlers() {
+    const addButton = document.getElementById('add');
+    const clearButton = document.getElementById('clear');
+
+    if (!stickiesComponent.storage) {
+      alert('browser ondersteunt geen storage');
+      addButton.disabled = true;
+      clearButton.disabled = true;
+      return;
+    }
+
+    addButton.onclick = () => {
+      const noteText = document.getElementById('notetext');
+      const noteColor = document.getElementById('notecolor');
+      this.#addSticky(noteText.value, noteColor.value);
+      noteText.value = '';
+    };
+
+    clearButton.onclick = () => {
+      this.#clearStickies();
+    };
   }
 }
 
 function init() {
-  const stickiesComponent = new StickiesComponent(localStorage);
-  const addButton = document.getElementById('add');
-  const clearButton = document.getElementById('clear');
-
-  if (!stickiesComponent.storage) {
-    alert('browser ondersteunt geen storage');
-    addButton.disabled = true;
-    clearButton.disabled = true;
-    return;
-  }
-  stickiesComponent.getStickiesFromStorage();
-  stickiesComponent.toHTML();
-
-  addButton.onclick = function () {
-    const noteText = document.getElementById('notetext');
-    const noteColor = document.getElementById('notecolor');
-    stickiesComponent.addSticky(noteText.value, noteColor.value);
-    noteText.value = '';
-  };
-
-  clearButton.onclick = function () {
-    stickiesComponent.clearStickies();
-  };
+  new StickiesComponent(localStorage);
 }
 
 window.onload = init;
