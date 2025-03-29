@@ -1,38 +1,10 @@
-'use strict';
-class Sticky {
-  #id;
-  #note;
-  #color;
-
-  constructor(note, color) {
-    this.#id = 'sticky_' + Math.random().toString(36).substring(2);
-    this.note = note;
-    this.color = color;
-  }
-
-  get id() {
-    return this.#id;
-  }
-  get note() {
-    return this.#note;
-  }
-  get color() {
-    return this.#color;
-  }
-  set note(value) {
-    this.#note = value;
-  }
-  set color(value) {
-    this.#color = value;
-  }
-  toJSON() {
-    return {
-      id: this.id,
-      note: this.note,
-      color: this.color,
-    };
-  }
-}
+// TODO:
+// 1. Maak een Sticky-klasse met het volgende:
+// - id (private)
+// - note (getter + setter)
+// - color (getter + setter)
+// 2. constructor die zelf de key bepaald (zie v1) en de andere nodige waarden zet.
+// 3. methode toJSON om het object om te zetten naar een object literal.
 
 class StickiesComponent {
   #storage;
@@ -50,9 +22,10 @@ class StickiesComponent {
       (result, [key, value]) => {
         // converteert JSON string naar object literal
         const storObj = JSON.parse(value);
-        // converteert object literal naar object van class Sticky
-        const sticky = new Sticky(storObj.note, storObj.color);
-        return (result += `${key}:${sticky.note}-${sticky.color}\n`);
+
+        // TODO: 
+        // 1. Converteert object literal naar object van class Sticky en gebruik deze.
+        return (result += `${key}:${key}-${color}\n`);
       },
       ''
     );
@@ -62,8 +35,9 @@ class StickiesComponent {
     this.#storage.clear();
   }
   #addSticky(note, color) {
-    const sticky = new Sticky(note, color);
-    this.#storage.setItem(sticky.id, JSON.stringify(sticky));
+    // TODO: 
+    // 1. Maak een nieuw Sticky-object aan.
+    // 2. Seraliseer het Sticky-object naar JSON en sla het op in localStorage. Gebruik het Id van de Sticky als sleutel.
   }
 
   #initializeEventHandlers() {
