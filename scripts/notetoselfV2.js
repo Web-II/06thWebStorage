@@ -38,13 +38,14 @@ class StickiesComponent {
   #storage;
   constructor(storage) {
     this.#storage = storage;
+    this.#initializeEventHandlers();
   }
 
   get storage() {
     return this.#storage;
   }
 
-  toHTML() {
+  #toHTML() {
     const allStickies = Object.entries(this.#storage).reduce(
       (result, [key, value]) => {
         // converteert JSON string naar object literal
@@ -57,37 +58,40 @@ class StickiesComponent {
     );
     alert(allStickies);
   }
-  clear() {
+  #clear() {
     this.#storage.clear();
   }
-  addSticky(note, color) {
+  #addSticky(note, color) {
     const sticky = new Sticky(note, color);
     this.#storage.setItem(sticky.id, JSON.stringify(sticky));
+  }
+
+  #initializeEventHandlers() {
+    const addButton = document.getElementById('add');
+    const clearButton = document.getElementById('clear');
+    const noteText = document.getElementById('notetext');
+    const noteColor = document.getElementById('notecolor');
+
+    if (!this.#storage) {
+      alert('browser ondersteunt geen storage');
+      addButton.disabled = true;
+      clearButton.disabled = true;
+      return;
+    }
+
+    addButton.onclick = () => {
+      this.#addSticky(noteText.value, noteColor.value);
+      noteText.value = '';
+      this.#toHTML();
+    };
+    clearButton.onclick = () => {
+      this.#clear();
+    };
   }
 }
 
 function init() {
-  const stickiesComponent = new StickiesComponent(localStorage);
-  const addButton = document.getElementById('add');
-  const clearButton = document.getElementById('clear');
-  const noteText = document.getElementById('notetext');
-  const noteColor = document.getElementById('notecolor');
-
-  if (!stickiesComponent.storage) {
-    alert('browser ondersteunt geen storage');
-    addButton.disabled = true;
-    clearButton.disabled = true;
-    return;
-  }
-
-  addButton.onclick = function () {
-    stickiesComponent.addSticky(noteText.value, noteColor.value);
-    noteText.value = '';
-    stickiesComponent.toHTML();
-  };
-  clearButton.onclick = function () {
-    stickiesComponent.clear();
-  };
+  new StickiesComponent(localStorage);
 }
 
 window.onload = init;
