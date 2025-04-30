@@ -76,7 +76,7 @@ class StickiesComponent {
     const addButton = document.getElementById('add');
     const clearButton = document.getElementById('clear');
 
-    if (!stickiesComponent.storage) {
+    if (!this.#storage) {
       alert('browser ondersteunt geen storage');
       addButton.disabled = true;
       clearButton.disabled = true;
